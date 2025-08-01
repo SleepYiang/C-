@@ -234,6 +234,7 @@ void test_safe_que()
 
 int main()
 {
+    //水一条
     PoorImplemention();
     //ResonableImplemention();
     //test_safe_que();
