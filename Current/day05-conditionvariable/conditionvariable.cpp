@@ -216,7 +216,7 @@ void test_safe_que()
                 if (data != nullptr)
                 {
                     {
-                        std::lock_guard<std::mutex> printlk(mtx_print);
+                        std::lock_guard<std::mutex>printlk(mtx_print);
                         std::cout << "consumer2 try_pop data is " << *data << std::endl;
                     }
                 }
@@ -234,7 +234,7 @@ void test_safe_que()
 
 int main()
 {
-    //水一条
+    //水一条，
     PoorImplemention();
     //ResonableImplemention();
     //test_safe_que();
