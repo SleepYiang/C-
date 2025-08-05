@@ -71,7 +71,8 @@ void read_y_then_x() {
 
 
 void TestOrderRelaxed() {
-
+	x=false;
+	y=false;
 	std::thread t1(write_x_then_y);
 	std::thread t2(read_y_then_x);
 	t1.join();
