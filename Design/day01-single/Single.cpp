@@ -1,6 +1,7 @@
 #include<iostream>
 #include<mutex>
 #include<memory>
+#include<thread>
 //懒汉式不安全版
 class SingleLazy
 {
@@ -91,12 +92,49 @@ void test_singleauto()
     std::cout << "sp1  is  " << sp1 << std::endl;
     std::cout << "sp2  is  " << sp2 << std::endl;
 }
+//饿汉式
+class SingleHunger
+{
+public:
+    static SingleHunger*GetInst()
+    {
+        if (single==nullptr)
+        {
+            single=new SingleHunger();
+        }
+        return single;
+    }
+private:
+    static SingleHunger*single;
+    SingleHunger(){}
+    SingleHunger(const SingleHunger&)=delete;
+    SingleHunger&operator=(const SingleHunger&)=delete;
+};
+//饿汉式的初始化
+SingleHunger*SingleHunger::single=SingleHunger::GetInst();
+void thread_fun_s3(int i)
+{
+    std::cout<<"this thread is "<<i<<std::endl;
+    std::cout<<"inst is"<<&SingleHunger::GetInst<<std::endl;
+}
+void test_SingleHunger()
+{
+    std::cout<<"s1 address is"<<&SingleHunger::GetInst<<std::endl;
+    std::cout<<"s2 address is"<<&SingleHunger::GetInst<<std::endl;
+    for (int i=0;i<3;i++)
+    {
+        std::thread tid1(thread_fun_s3,i);
+        tid1.join();
+    }
+
+}
 int main()
 {
     //懒汉式会出现的问题是一在使用时才会初始化但是在使用时会出现重读初始化的文艺（一个正在初始化但是另一个以为没有就还在初始化）
     //testSingleLazy();
     //利用互斥锁实现线程安全保证不会多次初始化
     //testSingleLazy_safe();
-    test_singleauto();
+    //test_singleauto();
+    test_SingleHunger();
     return 0;
 }
