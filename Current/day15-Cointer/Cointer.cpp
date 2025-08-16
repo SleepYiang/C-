@@ -38,7 +38,7 @@ public:
         std::lock_guard<std::mutex> lock(m);
         if (data.empty()) throw empty_stack();  //  ⇽-- - ②
             std::shared_ptr<T> const res(
-                std::make_shared<T>(std::move(data.top())));   // ⇽-- - ③
+                std::make_shared<T>(std::move(data.top())));   // ⇽-- - ③不一定是安全的
             data.pop();   // ⇽-- - ④
             return res;
     }
@@ -57,7 +57,6 @@ public:
         return data.empty();
     }
 };
-
 
 template<typename  T>
 class threadsafe_stack_waitable
