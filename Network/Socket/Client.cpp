@@ -27,7 +27,7 @@ int main()
     client.sin_addr.s_addr=inet_addr(ip.c_str());
     if (connect(sockfd,(struct sockaddr*)&client,sizeof(client))<0)
     {
-        printf("bind failed error:%d,errmsg:%s",errno,strerror(errno));
+        printf("connect failed error:%d,errmsg:%s",errno,strerror(errno));
         return 1;
     }
     //向服务端发送数据
