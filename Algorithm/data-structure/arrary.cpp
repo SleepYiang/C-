@@ -50,5 +50,5 @@ int find(int *nums, int size, int target) {
 int main()
 {
     //水一条
-
+    //数组完结
 }
