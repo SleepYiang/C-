@@ -6,6 +6,7 @@
 #include<atomic>
 #include<mutex>
 #include<condition_variable>
+#include<functional>
 //任务抽象基类
 class Task
 {
@@ -24,9 +25,16 @@ enum class PoolMode
 class Thread
 {
 public:
+    //线程函数对象类型
+    using ThreadFunc = std::function<void()>;
+    //线程构造函数
+    Thread(ThreadFunc func);
+    //线程析构函数
+    ~Thread();
     //启动线程
     void start();
 private:
+    ThreadFunc func_;
 };
 //线程池类型
 class ThreadPool

@@ -1,9 +1,12 @@
 #include "ThreadPool.h"
 #include<functional>
+#include <iostream>
+#include <ostream>
+#include<thread>
 const int TASK_MAX_THREHOLD=1024;
 //线程池构造函数
 ThreadPool::ThreadPool()
-    :initThreadSize_(0)
+    :initThreadSize_(4)
     ,taskSize_(0)
     ,taskQueMaxThreadHold_(TASK_MAX_THREHOLD)
     ,poolMode_(PoolMode::MODE_FIXED)
@@ -30,7 +33,7 @@ void ThreadPool::submitTask(std::shared_ptr<Task> sp)
 }
 
 //开启线程池
-void ThreadPool::start(int initThreadSize=4)
+void ThreadPool::start(int initThreadSize)
 {
     //记录初始线程个数
     initThreadSize_ = initThreadSize;
@@ -51,6 +54,20 @@ void ThreadPool::start(int initThreadSize=4)
 //定义线程函数
 void ThreadPool::threadFunc()
 {
-
+    std::cout<<"begin func tid: "<<std::this_thread::get_id()<<std::endl;
+    std::cout<<"end func tid: "<<std::this_thread::get_id()<<std::endl;
 }
 /**********************************线程方法实现***************************************/
+//线程构造函数
+Thread::Thread(ThreadFunc func)
+    :func_(func)
+{}
+//线程析构函数
+Thread::~Thread(){}
+//启动线程
+void Thread::start()
+{
+    //创建一个线程来执行一个线程函数
+    std::thread t(func_);
+    t.detach();     //设置分离线程
+}
