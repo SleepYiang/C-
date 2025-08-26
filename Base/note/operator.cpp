@@ -180,3 +180,4 @@ int main()
 //static_cast   提供编译器认为安全的类型转化按（没有任何联系的类型之间的转换就被否定了 ）
 //reinterpret_cast  //类似于C风格的类型转换
 //dynamic_cast      //主要用在继承的结构中，可以支持RTTI类型识别的上下转换
+//
