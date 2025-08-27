@@ -1,87 +1,87 @@
 //运算符重载:使对象运算表现的和编译器内置类型一样
 //编译器做对象运算的时候，会调用运算符重载函数，优先调用成员方法，如果没有成员方法，就在全局作用域内寻找合适的运算符重载函数
 //单目运算符重载    operator++()//前置++    operator++(int)//后置++
-#include <cstring>
-#include<iostream>
-#include<string>
-using namespace std;
-class String
-{
-public:
-    String(const char * p=nullptr)
-    {
-        if (p!=nullptr)
-        {
-            pstr_=new char[strlen(p)+1];
-            strcpy(pstr_, p);
-        }else
-        {
-            pstr_=new char[1];
-            *pstr_='\0';
-        }
-    }
-    ~String()
-    {
-        delete [] pstr_;
-        pstr_=nullptr;
-    }
-    String(const String &str)
-    {
-        pstr_=new char[strlen(str.pstr_)+1];
-        strcpy(pstr_, str.pstr_);
-    }
-    String & operator=(const String &str)
-    {
-        if (this==&str)
-            return *this;
-        delete [] pstr_;
-        pstr_=new char[strlen(str.pstr_)+1];
-        strcpy(pstr_, str.pstr_);
-        return *this;
-    }
-    //给字符串类型提供迭代器
-    class iterator
-    {
-    public:
-    private:
-        char * p_;
-    };
-    //begin返回容器底层元素的迭代器的标志
-    iterator begin(){return iterator(pstr_);    }
-    iterator end();
-private:
-    char*pstr_;
-    friend ostream& operator<<(ostream &out,const String &str);
-    friend String operator+(const String &str1, const String &str2);
-};
-String operator+(const String &str1, const String &str2)
-{
-    char *ptmp=new char[strlen(str1.pstr_)+strlen(str2.pstr_)+1];
-    strcpy(ptmp, str1.pstr_);
-    strcat(ptmp, str2.pstr_);
-    return String(ptmp);
-}
-ostream& operator<<(ostream &out,const String &str)
-{
-    out<<str.pstr_<<endl;
-}
-//泛型算法参数接受的都是迭代器
-int main()
-{
-    string str1="hello world";//str1
-    //容器的迭代器
-    string::iterator it=str1.begin();//返回首元素的地址
-    for (;it!=str1.end();it++)
-    {
-        cout<<*it<<endl;//访问容器内部元素的值
-    }
-    // String str1;
-    // String str2="aaa";
-    // String str3="bbb";
-    // String str4=str3+str2;
-    // cout<<str4;
-    // return 0;
-}
+// #include <cstring>
+// #include<iostream>
+// #include<string>
+// using namespace std;
+// class String
+// {
+// public:
+//     String(const char * p=nullptr)
+//     {
+//         if (p!=nullptr)
+//         {
+//             pstr_=new char[strlen(p)+1];
+//             strcpy(pstr_, p);
+//         }else
+//         {
+//             pstr_=new char[1];
+//             *pstr_='\0';
+//         }
+//     }
+//     ~String()
+//     {
+//         delete [] pstr_;
+//         pstr_=nullptr;
+//     }
+//     String(const String &str)
+//     {
+//         pstr_=new char[strlen(str.pstr_)+1];
+//         strcpy(pstr_, str.pstr_);
+//     }
+//     String & operator=(const String &str)
+//     {
+//         if (this==&str)
+//             return *this;
+//         delete [] pstr_;
+//         pstr_=new char[strlen(str.pstr_)+1];
+//         strcpy(pstr_, str.pstr_);
+//         return *this;
+//     }
+//     //给字符串类型提供迭代器
+//     class iterator
+//     {
+//     public:
+//     private:
+//         char * p_;
+//     };
+//     //begin返回容器底层元素的迭代器的标志
+//     iterator begin(){return iterator(pstr_);    }
+//     iterator end();
+// private:
+//     char*pstr_;
+//     friend ostream& operator<<(ostream &out,const String &str);
+//     friend String operator+(const String &str1, const String &str2);
+// };
+// String operator+(const String &str1, const String &str2)
+// {
+//     char *ptmp=new char[strlen(str1.pstr_)+strlen(str2.pstr_)+1];
+//     strcpy(ptmp, str1.pstr_);
+//     strcat(ptmp, str2.pstr_);
+//     return String(ptmp);
+// }
+// ostream& operator<<(ostream &out,const String &str)
+// {
+//     out<<str.pstr_<<endl;
+// }
+// //泛型算法参数接受的都是迭代器
+// int main()
+// {
+//     string str1="hello world";//str1
+//     //容器的迭代器
+//     string::iterator it=str1.begin();//返回首元素的地址
+//     for (;it!=str1.end();it++)
+//     {
+//         cout<<*it<<endl;//访问容器内部元素的值
+//     }
+//     // String str1;
+//     // String str2="aaa";
+//     // String str3="bbb";
+//     // String str4=str3+str2;
+//     // cout<<str4;
+//     // return 0;
+// }
 
 
 //new和delete
@@ -180,4 +180,115 @@ int main()
 //static_cast   提供编译器认为安全的类型转化按（没有任何联系的类型之间的转换就被否定了 ）
 //reinterpret_cast  //类似于C风格的类型转换
 //dynamic_cast      //主要用在继承的结构中，可以支持RTTI类型识别的上下转换
+
+
+
+//标准容器
+//顺序容器
+    // vector   deque   list
+//容器适配置器
+    //stack     queue    priority_queue
+//关联容器
+    //链式哈希表 增删查O（1）复杂度
+    //无序容器
+        //undorderd_set     unordered_multiset      unordered_map       unordered_multimap
+    //有序容器 （红黑树）
+        //set   multiset    map     multimap
+
+//近容器
+    //数组     string     bitset
+//迭代器
+    //iterator const_iterator
+    //reserse_iterator和const_reverse_iterator
+//函数对象(类似C的函数指针)
+//greater,less
+
+//泛型算法
+//sort,find,find_if,binary_search,for_each
+
+
+
+
+
+
+//vector
+#include<iostream>
+#include<vector>
+using namespace std;
+//vector向量容器
+//底层的数据结构，动态开辟数组，每次以原来空间的二倍大小进行扩容
+//vector<int>vec
+//增加
+//容器中，对象的构造析构，内存的开辟释放 通过谁来实现？
+//容器的空间配置器 allocator  allocate deallocate construct destory
+
+//vec.push_back(20);    末尾添加元素O(1) 导致容器空间扩容
+//vec.insert(it,20)     在指定位置（it）添加元素20 O(n) 导致容器扩容
+
+//删除
+//vec.pop_back();       在末尾删除元素O(1)
+//vec.erase(it);        删除it迭代器指向的元素O(n)
+//查询
+//operator[]            下表的随机访问
+//iterator              迭代器进行遍历
+//find for_each
+//注意 对容器进行连续的插入或者删除操作，一定要更新迭代器，否则第一册insert或者erase完成，迭代器失效
+
+//常用方法介绍
+//size()
+//empty()
+//reserve(20)         vector预留空间    只给容器开辟指定到大小的空间，并不会添加新元素
+//resize（20）        重置大小（扩容使用的） 不仅会给容器开辟空间还会给容器添加新元素
+//swap               两个容器进行交换
+
+
+//queue 双端队列容器
+//底层数据结构：动态开辟的二维数组，一维数组从2开始，以2倍的方式进行扩容，原来的二维数组，从新的以为数组下标
+//oldsize/2开始存放上下预留相同的空行，方便支持deque的首尾元素添加
+//deque<int>deq
+//增加
+//deq.push_back(20) 从末尾开始添加O(1)
+//deq.front(20)     从首部添加元素O（1）
+//deq.insert(it,0) 指定位置添加元素
+
+//删除
+//deq.pop_back()    从末尾删除元素O(1)
+//deq.pop_front()   从首部删除元素O(1)
+//deq.erase()       从中间指定位置删除
+
+//vector特点：动态数组，内存是连续的2倍的方式进行扩容，vector<int>vec;0-1-2-4-7...
+//deque特点：动态开辟二维数组空间，第二维是固定长度的数组空间，扩容的时候（第一维数组进行二倍扩容）
+            //deque底层数组空间是不是连续的 并不是（每一个第二维是连续的）
+//vector和deque之间的区别
+    //底层数据结构:前后都需要添加数据（数组）
+    //前中后插入删除元素的时间复杂度：中间末尾o(1)前dequeO(1) vectorO(n)
+    //对于内存的使用效率：vector需要空间是连续的，deque可以分块对数据进行存储，不需要内存空间是连续的
+    //在中间进行insert或者erase，vector和deque谁的效率好一点？     vector更好一些
+        //deque的第二维空间不是连续的所以在中间插入删除元素就要移动多个元素
+
+//vector和list之间的区别
+//底层数据结构:数组    双向链表
+
+
+
+//容器适配器（设计模式适配器）
+//适配器没有自己的数据结构，他是另外一容器的封装，他的方法全部是由底层依赖的容器进行实现的
+//没有实现自己的迭代器
+//stack                         push入栈 pop出栈 empty判断栈空 size返回元素个数   top查看栈顶元素
+//stack依赖deque 为什么不依赖vector?
+//1.vector初始内存使用效率太低了 没有deque好
+//2.对于queue需要尾部插入头部删除 如果queue依赖vector其出队效率极低
+//3.当存储大量数据时deque对于内存的利用率更大更好
+
+//queue                         push入队 pop出队 front查看队头元素 back查看队尾元素 empty判断为空 size队大小
+//queue依赖deque 为什么不依赖vector
+//1.vector初始内存使用效率太低了 没有deque好
+//2.对于queue需要尾部插入头部删除 如果queue依赖vector其出队效率极低
+//3.当存储大量数据时deque对于内存的利用率更大更好
+
+//priority——queue               push入队 pop出队 top查看队顶元素 back查看队尾元素 empty判断为空 size队大小
+//priority_queue依赖vector 为社么依赖vector
+//1.默认底层十一个大根堆结构           （大跟堆和小根堆）在连续内存上分配的
+
+
 //
