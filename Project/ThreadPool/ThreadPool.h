@@ -7,6 +7,52 @@
 #include<mutex>
 #include<condition_variable>
 #include<functional>
+//Any类型的实现
+class Any
+{
+public:
+    Any()=default;
+    ~Any()=default;
+    Any(const Any&)=delete;
+    Any& operator=(const Any&)=delete;
+    Any(Any&&)=default;
+
+    //这个构造函数可以让any类型接受任意其他类型的数据
+    template<typename T>
+    Any(T data):base_(std::make_unique<Derive<T>>(data)){}
+    //把any对象里存储的数据提取出来
+    template<typename T>
+    T cast_()
+    {
+        //我们怎么从base找到他所指向的derive对象，从他里面取出data成员变量
+        //基类指针转换为派生类指针
+        Derive<T>*pd=dynamic_cast<Derive<T>*>(base_.get());
+        if(pd==nullptr)
+        {
+            throw "type is unmatch";
+        }
+        return pd->data_;
+    }
+private:
+    //基类类型
+    class Base
+    {
+    public:
+        virtual ~Base()=default;
+    };
+    //派生类类型
+    template<typename T>
+    class Derive:public Base
+    {
+    public:
+        Derive(T data):data_(data){}
+        T data_; //保存了任意的其他类型
+    };
+private:
+    //定义一个基类的指针
+    std::unique_ptr<Base>base_;
+};
+
 //任务抽象基类
 class Task
 {
@@ -36,6 +82,18 @@ public:
 private:
     ThreadFunc func_;
 };
+/*
+    example:
+    ThreadPool pool;
+    pool.start(4);
+
+    class My_task
+    {
+    public;
+    void run()
+    };
+    pool.submitTask(std::make_shared<MyTask>());
+ */
 //线程池类型
 class ThreadPool
 {
