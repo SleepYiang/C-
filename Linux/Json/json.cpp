@@ -35,6 +35,25 @@ void func2()
     js["msg"]={{"zhang san","hello world"},{"liu shuo","hello china"}};
     cout<<js<<endl;
 }
+
+//json实例化代码3
+void func3()
+{
+    json js;
+    // 直接序列化一个vector容器
+    vector<int> vec;
+    vec.push_back(1);
+    vec.push_back(2);
+    vec.push_back(5);
+    js["list"] = vec;
+    // 直接序列化一个map容器
+    map<int, string> m;
+    m.insert({1, "黄山"});
+    m.insert({2, "华山"});
+    m.insert({3, "泰山"});
+    js["path"] = m;
+    cout<<js<<endl;
+}
 int main()
 {
     func1();
