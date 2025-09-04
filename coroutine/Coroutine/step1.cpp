@@ -2,6 +2,7 @@
 #include <chrono>
 #include <coroutine>
 
+//协程的好处是可以重复进入函数，并且保证函数进来的位置相同
 //使用库函函数的命名方式为有_命名方式
 //自己生命的函数为驼峰命名方式
 struct RepeatAwaiter // awaiter(原始指针) / awaitable(operator->)
