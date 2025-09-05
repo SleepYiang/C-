@@ -1,3 +1,40 @@
+//Cameke相关的笔记
+/*、
+#设置编译的CMake版本
+cmake_minimum_required(VERSION 3.28.3)
+#设置项目名称
+project(Linux)
+#设置编译选项
+set(CMAKE_CXX_FLGS ${CMAKE_CXX_FLAGS}-g)
+#配置头文件
+#include_directories()
+#配置库文件搜索路径
+#link_directories()
+#设置c++的标准
+set(CMAKE_CXX_STANDARD 11)
+#set(muduo_DIR "/usr/include")
+# 查找fmt库            /usr/include
+#find_package(REQUIRED muduo)
+#配置编译的文件
+add_executable(Linux main.cpp
+        muduo/TcpClient.cpp)
+#把.指定路径下的所有源文件名字放入SRC_LIST里面
+#aux_source_directory(.SRC_LIST)
+# 链接fmt库
+target_link_libraries(Linux muduo_net muduo_base pthread)
+ */
+
+
+
+
+
+
+
+
+
+
+
+
 //什么是gcc       gun编译套件  编译器可以编译c++语言
 //什么是库    1.代码保密     2.方便部署和开发
 
