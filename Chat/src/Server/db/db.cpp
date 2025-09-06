@@ -60,4 +60,4 @@ MYSQL* MySQL::getConnection()
 {
     return _conn;
 }
-//封信
+//
