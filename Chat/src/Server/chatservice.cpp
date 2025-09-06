@@ -39,14 +39,76 @@ MsgHandler ChatService::getHandler(int msgid)
 }
 
 
-//处理登录业务
-void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
-{
+//处理登录业务    ORM(对象框架映射) 业务操作层的都是对象  DAO(数据层)
+ void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
+ {
+     int id=js["id"].get<int>();
+     string pwd=js["password"];
 
-}
-//处理注册业务
+     User user=usermodel_.query(id);
+     if (user.getId()==id&&user.getPassword()==pwd)
+     {
+         if (user.getState()=="online")
+         {
+             //用户已经登录，不允许重复登录
+             json response;
+             response["msgid"]=LOGIN_MSG_ACK;
+             response["errno"]=2;
+             response["errmsg"]="账号已经登录，重新登录其他账号";
+             conn->send(response.dump());
+         }
+         else
+         {
+             //登录成功，更新用户状态信息 state offline->online
+             user.setState("online");
+             usermodel_.updateState(user);
+             json response;
+             response["msgid"]=LOGIN_MSG_ACK;
+             response["errno"]=0;
+             response["id"]=user.getId();
+             response["name"]=user.getName();
+             conn->send(response.dump());
+         }
+
+     }
+     else
+     {
+         //该用户不存在 用户存在但是密码错误登录失败
+         json response;
+         response["msgid"]=LOGIN_MSG_ACK;
+         response["errno"]=1;
+         response["errmsg"]="用户名或者密码错误";
+         conn->send(response.dump());
+     }
+ }
+
+
+//处理注册业务  name passward
 void ChatService::reg(const TcpConnectionPtr& conn, json& js, Timestamp time)
 {
+    string name = js["name"];
+    string pwd = js["password"];
 
+    User user;
+    user.setName(name);
+    user.setPassword(pwd);
+    bool state=usermodel_.insert(user);
+    if(state)
+    {
+        //表示注册成功
+        json response;
+        response["msgid"]=REG_MSG_ACK;
+        response["errno"]=0;
+        response["id"]=user.getId();
+        conn->send(response.dump());
+    }
+    else
+    {
+        //注册失败
+        json response;
+        response["msgid"]=REG_MSG_ACK;
+        response["errno"]=1;
+        conn->send(response.dump());
+    }
 }
 

@@ -6,7 +6,7 @@
 #include<muduo/net/TcpConnection.h>
 #include<functional>
 #include"json.hpp"
-#include "../thirdparty/json.hpp"
+#include"usermodel.hpp"
 using namespace std;
 using namespace muduo;
 using namespace muduo::net;
@@ -31,6 +31,9 @@ private:
     ChatService();
     //村塾消息id和其对应业务处理方法
     unordered_map<int,MsgHandler>msgHandlerMap_;
+
+    //数据操作类对象
+    usermodel usermodel_;
 };
 
 #endif

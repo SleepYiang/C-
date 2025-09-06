@@ -9,7 +9,7 @@ class ChatServer
 {
 public:
     //初始化聊天服务对象
-    void ChatServer(EventLoop*loop,const InetAddress&listenAddr,const string&nameArg);
+     ChatServer(EventLoop*loop,const InetAddress&listenAddr,const string&nameArg);
     //启动服务
     void start();
 private:
