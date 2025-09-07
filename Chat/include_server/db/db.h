@@ -1,6 +1,6 @@
 #ifndef CHAT_DB_H
 #define CHAT_DB_H
-#include<mysql/mysql.h>
+#include<yysql/mysql.h>
 #include<string>
 using namespace std;
 // 数据库操作类
