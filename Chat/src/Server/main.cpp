@@ -1,2 +1,6 @@
 //这是基本项目
-#include <stdio.h>
+#include<iostream>
+int main()
+{
+    return 0;
+}
