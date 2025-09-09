@@ -22,48 +22,48 @@ bool UserModel::insert(User &user)
 }
 
 //根据用户号码查询用户信息
-// User UserModel::query(int id)
-// {
-//     //1.组装sql语句
-//     char aql[1024]={0};
-//     sprintf(aql,"select *from user where id= %d",id);
-//
-//     MySQL mysql;
-//     if (mysql.connect())
-//     {
-//         MYSQL_RES *res = mysql.query(aql);
-//         if (res!=nullptr)
-//         {
-//             MYSQL_ROW row=mysql_fetch_row(res);
-//             if (row!=nullptr)
-//             {
-//                 User user;
-//                 user.setId(atoi(row[0]));
-//                 user.setName(row[1]);
-//                 user.setPassword(row[2]);
-//                 user.setState((row[3]));
-//
-//                 mysql_free_result(res);
-//                 return user;
-//             }
-//         }
-//     }
-//     return User();
-// }
+ User UserModel::query(int id)
+ {
+     //1.组装sql语句
+     char aql[1024]={0};
+     sprintf(aql,"select *from user where id= %d",id);
+
+     MySQL mysql;
+     if (mysql.connect())
+     {
+         MYSQL_RES *res = mysql.query(aql);
+         if (res!=nullptr)
+         {
+             MYSQL_ROW row=mysql_fetch_row(res);
+             if (row!=nullptr)
+             {
+                 User user;
+                 user.setId(atoi(row[0]));
+                 user.setName(row[1]);
+                 user.setPassword(row[2]);
+                 user.setState((row[3]));
+
+                 mysql_free_result(res);
+                 return user;
+             }
+         }
+     }
+     return User();
+ }
 
 //更新用户状态信息
-// bool UserModel::updateState(User user)
-// {
-//     //1.组装sql语句
-//     char aql[1024]={0};
-//     sprintf(aql,"update user set state state= '%s' where id='%d'",user.getState().c_str()
-//         ,user.getId());
-//
-//     MySQL mysql;
-//     if (mysql.connect())
-//         if (mysql.update(aql))
-//         {
-//             return true;
-//         }
-//     return false;
-// }
+ bool UserModel::updateState(User user)
+ {
+     //1.组装sql语句
+     char aql[1024]={0};
+     sprintf(aql,"update user set  state= '%s' where id='%d'",user.getState().c_str()
+         ,user.getId());
+
+     MySQL mysql;
+     if (mysql.connect())
+         if (mysql.update(aql))
+         {
+             return true;
+         }
+     return false;
+ }
