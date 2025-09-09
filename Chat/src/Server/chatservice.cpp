@@ -37,7 +37,7 @@ MsgHandler ChatService::getHandler(int msgid)
     }
 }
 
-//处理登录业务
+//处理登录业务   （对象关映射） 业务层操作的都是对象
 void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
 {
     LOG_INFO << "login";
@@ -46,5 +46,28 @@ void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
 //处理注册业务
 void ChatService::reg(const TcpConnectionPtr& conn, json& js, Timestamp time)
 {
-    LOG_INFO << "reg";
+    string name = js["name"];
+    string password = js["password"];
+
+    User user;
+    user.setName(name);
+    user.setPassword(password);
+    bool state=userModel_.insert(user);
+    if (state)
+    {
+        //注册成功
+        json response;
+        response["msgid"] =REG_MSG_ACK;
+        response["errno"]=0;
+        response["id"]=user.getId();
+        conn->send(response.dump());
+    }
+    else
+    {
+        //注册失败
+        json response;
+        response["msgid"]=REG_MSG_ACK;
+        response["errno"]=1;
+        conn->send(response.dump());
+    }
 }

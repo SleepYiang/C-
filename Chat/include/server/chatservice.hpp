@@ -5,6 +5,7 @@
 #include<muduo/net/TcpConnection.h>
 #include<functional>
 #include"json.hpp"
+#include"usermodel.hpp"
 using namespace std;
 using namespace muduo;
 using namespace muduo::net;
@@ -31,7 +32,7 @@ private:
     unordered_map<int,MsgHandler>msgHandlerMap_;
 
     //数据操作类对象
-
+    UserModel userModel_;
 };
 
 #endif
