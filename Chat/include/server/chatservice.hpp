@@ -7,6 +7,7 @@
 #include"json.hpp"
 #include"usermodel.hpp"
 #include<mutex>
+#include"offlinemessagemodel.hpp"
 using namespace std;
 using namespace muduo;
 using namespace muduo::net;
@@ -28,6 +29,7 @@ public:
     //一对一来那天业务
     void oneChat(const TcpConnectionPtr&conn,json&js,Timestamp time);
     //获取消息对应的处理器
+    //服务器异常后
     MsgHandler getHandler(int msgid);
     //处理客户端异常退出
     void clientCloseException(const TcpConnectionPtr& conn);
@@ -45,6 +47,7 @@ private:
 
     //数据操作类对象
     UserModel userModel_;
+    OfflineMsgModel offlineMsgModel_;
 };
 
 #endif
