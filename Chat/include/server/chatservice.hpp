@@ -29,8 +29,9 @@ public:
     //一对一来那天业务
     void oneChat(const TcpConnectionPtr&conn,json&js,Timestamp time);
     //获取消息对应的处理器
-    //服务器异常后
     MsgHandler getHandler(int msgid);
+    //服务器异常后业务重置方法
+    void reset();
     //处理客户端异常退出
     void clientCloseException(const TcpConnectionPtr& conn);
 
