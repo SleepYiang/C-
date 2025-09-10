@@ -13,7 +13,12 @@ int main()
     //{"msgid":3}
     //{"msgid":2,"name":"zhang san yi","password":"123456"}
     //{"msgid":1,"id":22,"password":"123456"}
-    //{"msgid":1,"id":22,"password":"12345"}
+    //{"msgid":1,"id":22,"password":"123456"}{"msgid":1,"id":22,"password":"123456"}
+    //{"msgid":1,"id":15,"password":"666666"}
+    //{"msgid":5,"id":22,"from":"zhang san yi","to":15,"msg":"hello"}
+    //{"msgid":5,"id":15,"from":"li si","to":22,"msg":"hello!"}
+    //update user set state ='offline' where id=22
+    //
     return 0;
 
 }

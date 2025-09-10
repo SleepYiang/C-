@@ -15,6 +15,7 @@ ChatService::ChatService()
 {
     msgHandlerMap_.insert({LOGIN_MSG, std::bind(&ChatService::login, this, _1, _2, _3)});
     msgHandlerMap_.insert({REG_MSG, std::bind(&ChatService::reg, this, _1, _2, _3)});
+    msgHandlerMap_.insert({ONE_CHAT_MSG, std::bind(&ChatService::oneChat, this, _1, _2, _3)});
 }
 
 MsgHandler ChatService::getHandler(int msgid)
@@ -57,6 +58,12 @@ void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
         }
         else
         {
+            //登录成功，记录用户连接
+            {
+                lock_guard<mutex> lock(connMutex_);
+                userConnMap_.insert({id,conn});
+            }
+
             //登录成功,更新用户状态信息 state offline=>online
             user.setState("online");
             userModel_.updateState(user);
@@ -65,6 +72,7 @@ void ChatService::login(const TcpConnectionPtr& conn, json& js, Timestamp time)
             response["errno"]=0;
             response["id"]=user.getId();
             response["name"]=user.getName();
+            //擦汗寻用户是否有离线消息
             conn->send(response.dump());
         }
     }
@@ -106,4 +114,47 @@ void ChatService::reg(const TcpConnectionPtr& conn, json& js, Timestamp time)
         response["errno"]=1;
         conn->send(response.dump());
     }
+}
+//上报连接相关信息的回调函数
+void ChatService::clientCloseException(const TcpConnectionPtr& conn)
+{
+    User user;
+    {
+        lock_guard<mutex>lock(connMutex_);
+        for (auto it = userConnMap_.begin(); it != userConnMap_.end();++it)
+        {
+            if (it->second == conn)
+            {
+                //从map表删除用户连接信息
+                user.setId(it->first);
+                userConnMap_.erase(it);
+                break;
+            }
+        }
+    }
+    //更新用户状态
+    if (user.getId()!=-1)
+    {
+        user.setState("offline");
+        userModel_.updateState(user);
+    }
+}
+
+//一对一聊天业务
+void ChatService::oneChat(const TcpConnectionPtr& conn, json& js, Timestamp time)
+{
+    int toid=js["to"].get<int>();
+    //标识用户是否在线
+    bool userState=false;
+    {
+        lock_guard<mutex> lock(connMutex_);
+        auto it = userConnMap_.find(toid);
+        if (it!=userConnMap_.end())
+        {
+            //toid在线，转发消息  服务器主动推送消息给toid用户
+            it->second->send(js.dump());
+            return;
+        }
+    }
+    //toid不在线，存储离线消息
 }
