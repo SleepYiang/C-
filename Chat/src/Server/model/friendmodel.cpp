@@ -1,4 +1,4 @@
-#include"friendmodel.hpp"
+#include "friendmodel.hpp"
 #include"db.h"
 //添加好友关系
 void FriendModel::insert(int userid, int friendid)

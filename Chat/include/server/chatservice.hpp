@@ -5,10 +5,11 @@
 #include<muduo/net/TcpConnection.h>
 #include<functional>
 #include"json.hpp"
-#include"usermodel.hpp"
+#include "model/usermodel.hpp"
 #include<mutex>
-#include"offlinemessagemodel.hpp"
-#include"friendmodel.hpp"
+#include "model/offlinemessagemodel.hpp"
+#include "model/friendmodel.hpp"
+#include "model/groupmodel.hpp"
 using namespace std;
 using namespace muduo;
 using namespace muduo::net;
@@ -31,6 +32,12 @@ public:
     void oneChat(const TcpConnectionPtr&conn,json&js,Timestamp time);
     //添加好友业务
     void addFriend(const TcpConnectionPtr&conn,json&js,Timestamp time);
+    // 创建群组业务
+    void createGroup(const TcpConnectionPtr &conn, json &js, Timestamp time);
+    // 加入群组业务
+    void addGroup(const TcpConnectionPtr &conn, json &js, Timestamp time);
+    // 群组聊天业务
+    void groupChat(const TcpConnectionPtr &conn, json &js, Timestamp time);
     //获取消息对应的处理器
     MsgHandler getHandler(int msgid);
     //服务器异常后业务重置方法
@@ -53,6 +60,7 @@ private:
     UserModel userModel_;
     OfflineMsgModel offlineMsgModel_;
     FriendModel friendModel_;
+    GroupModel groupModel_;
 };
 
 #endif

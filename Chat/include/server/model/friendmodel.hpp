@@ -1,7 +1,7 @@
 #ifndef FRIENDMODEL_H
 #define FRIENDMODEL_H
 #include<vector>
-#include"user.hpp"
+#include "user.hpp"
 using namespace std;
 //维护好欧信息的操作方法接口
 class FriendModel
