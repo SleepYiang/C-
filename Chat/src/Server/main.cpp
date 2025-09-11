@@ -28,7 +28,7 @@ int main()
     //{"msgid":5,"id":22,"from":"zhang san yi","to":15,"msg":"hello"}
     //{"msgid":5,"id":15,"from":"li si","to":22,"msg":"hello!"}
     //update user set state ='offline' where id=22
-    //
+    //{"msgid":6,"id":22,"friendid":15}
     return 0;
 
 }
