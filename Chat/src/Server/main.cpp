@@ -29,6 +29,8 @@ int main()
     //{"msgid":5,"id":15,"from":"li si","to":22,"msg":"hello!"}
     //update user set state ='offline' where id=22
     //{"msgid":6,"id":22,"friendid":15}
+    //std::cout <<"hello world";
+    //
     return 0;
 //*********************************note**************************************
     //引入负载均衡的相关知识点（通过业务分发、传输层分发、网络层的分发、数据链路层的分发）{LVS（偏底层的负载均衡）}
@@ -45,4 +47,5 @@ int main()
         //3.nginx的平滑加载配置文件启动
 
     //jiben biji
+
 }
