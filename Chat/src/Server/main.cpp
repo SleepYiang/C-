@@ -47,6 +47,7 @@ int main()
         //2.nginc.conf废止文件中如何配置负载均衡
         //3.nginx的平滑加载配置文件启动
 
-    //jiben biji
+//redis环境安装和配置
+
 
 }
