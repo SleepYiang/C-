@@ -22,17 +22,4 @@
     //ssize_t write(int fd,void *buf,size_t count);
     //off_t lseek(int fd,void *buf,size_t count);
 
-    // umsask
-//
-
-
-///
-////
-///
-////
-////
-////
-////
-////
-////
-///
+//fcntl(复制文件描述符，)
